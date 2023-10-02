@@ -1,0 +1,208 @@
+/* css */
+html {
+    --r: 56px; /* control the size */
+    --c1: #3FB8AF /*color 1*/ 99%,#0000 101%;
+    --c2: #FF9E9D /*color 2*/ 99%,#0000 101%;
+    
+    --s:calc(var(--r)*.866);  /* .866 = cos(30deg) */
+    --g0:radial-gradient(var(--r),var(--c1));
+    --g1:radial-gradient(var(--r),var(--c2));
+    --f:radial-gradient(var(--r) at calc(100% + var(--s)) 50%,var(--c1));
+    --p:radial-gradient(var(--r) at 100% 50%,var(--c2));
+    background:
+      var(--f) 0 calc(-5*var(--r)/2),
+      var(--f) calc(-2*var(--s)) calc(var(--r)/2),
+      var(--p) 0 calc(-2*var(--r)),
+      var(--g0) var(--s) calc(-5*var(--r)/2),
+      var(--g1) var(--s) calc( 5*var(--r)/2),
+      radial-gradient(var(--r) at 100% 100%,var(--c1)) 0 calc(-1*var(--r)),   
+      radial-gradient(var(--r) at 0%   50% ,var(--c1)) 0 calc(-4*var(--r)),
+      var(--g1) calc(-1*var(--s)) calc(-7*var(--r)/2),
+      var(--g0) calc(-1*var(--s)) calc(-5*var(--r)/2),
+      var(--p) calc(-2*var(--s)) var(--r),
+      var(--g0) calc(-1*var(--s)) calc(var(--r)/ 2),
+      var(--g1) calc(-1*var(--s)) calc(var(--r)/-2),
+      var(--g0) 0 calc(-1*var(--r)),
+      var(--g1) var(--s) calc(var(--r)/-2),
+      var(--g0) var(--s) calc(var(--r)/ 2) 
+      #FF9E9D; /*color 2 again here */
+    background-size: calc(4*var(--s)) calc(6*var(--r));
+  }
+
+
+.btn_start ,
+.quiz_box,
+.score_box
+{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50% , -50%);
+}
+
+.quiz_box.active{
+    opacity: 1;
+    pointer-events: auto; 
+    /* opacity sıfır yaptın gözünmez ama tıklanabilecek bir özelliği varsa tıklanabilir o yüzden bunu kullanman gerekir pointer-events: none; tıklanma özelliğini kapatır*/
+    transform: translate(-50%, -50%) scale(1);
+    
+}
+.quiz_box{
+    width: 550px;
+    opacity: 0;
+    pointer-events: none; 
+    transform: translate(-50%, -50%) scale(0.7);
+    transition:all 0.3s ease;
+ 
+}       
+.quiz_box header .title{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.quiz_box .question_text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.quiz_box .option_list{
+    padding: 18px 0 ;
+}
+
+.quiz_box .option_list .option{
+    border: 1px solid rgb(64, 20, 51);
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+.quiz_box .option_list .option:hover{
+    color: #000000;
+    background-color: #ffd500;
+}
+.quiz_box .option_list .option.correct{
+    color: #00762b;
+    background-color: #d9ffe7;
+}
+.quiz_box .option_list .option.incorrect{
+    color: #b00000; 
+    background-color: #fbcccc;
+}
+
+.quiz_box .option_list .option.disabled{
+    pointer-events: none;
+    /* tıklanma özelliğini kapat */
+}
+
+/* .option elemanlarından .disanled kılasına aynı anda sahip olanlar demiş olduk. */
+.quiz_box .next_btn{
+    opacity: 0;
+    pointer-events:none;
+    transform: scale(0.8);
+    transition:all 0.3s ease;
+}
+
+.quiz_box .next_btn.show{
+
+    opacity: 1;
+    pointer-events:auto;
+    transform: scale(1);
+}
+/* scale bir öğenin boyunutnu değiştimek için kullanılır iki parametre alabilir scaleY veya scaleX y ile yaparsan Y ekseninde küçülme X ile yaparsan X eksninde küçülme veya büyüme yaparsın bir resme scale(2) dersen 2x bir büyüme yaşar. aynı zamanda nesnelerin konumu değiştirmek içinde kullanılır*/
+
+.quiz_box footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.quiz_box footer span{
+    padding: 10px 15px ;
+    font-size: 15px;
+}
+
+
+/* timer */
+.quiz_box header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quiz_box header .timer{
+    display: flex;
+    align-items: center;
+    background: rgb(63,184,175);
+    background: linear-gradient(135deg, rgba(63,184,175,1) 0%, rgba(255,158,157,1) 89%);
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+
+/* align-items:center; öğeleri dikeyde ortalar dispal:flex ile beraber güze çalışırlar*/
+
+.quiz_box header .timer .timer_text{
+    font-size: 14px;
+}
+.quiz_box header .timer .time_second{
+    background: #ffd500;
+    border-radius:3px;
+    padding: 3px;
+    margin-left: 3px;
+    width:25px;
+    text-align: center;
+}
+
+.quiz_box header .time_line{
+    position: absolute; 
+    /* absolute demezsek hepsi yan yana gekir çünkü biz bunların kapsayıcısına flex verdik o yüzden absolute veriyorum i normal akışın dışına çıksın */
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    /* width: 550px; 0 - 500 */ 
+    background: rgb(63,184,175);
+    background: linear-gradient(135deg, rgba(63,184,175,1) 0%, rgba(255,158,157,1) 89%);
+
+
+}
+
+
+
+/* score_box */
+.score_box.active{
+    opacity: 1;
+    pointer-events: auto; 
+    transform: translate(-50%, -50%) scale(1);
+    
+}
+
+.score_box{
+    width: 550px;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    opacity: 0;
+    pointer-events: none; 
+    transform: translate(-50%, -50%) scale(0.7);
+    transition:all 0.3s ease;
+}
+.score_box .icon{
+    font-size: 90px;
+    color: goldenrod;
+    margin-bottom: 10px;
+}
+.score_box .score_text{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom:10px;
+}
+
+
